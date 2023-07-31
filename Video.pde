@@ -9,9 +9,14 @@ int camFps = 30;
 boolean liveCapture = false;
 String movieUrl = "test.mp4";
 boolean movieLoop = false;
+boolean autoVideoSource = false;
 
 void captureSetup() {
-  capture = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
+  if (autoVideoSource) {
+    capture = new Capture(this, "pipeline:autovideosrc");
+  } else {
+    capture = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
+  }
   capture.start(); 
 }
 
