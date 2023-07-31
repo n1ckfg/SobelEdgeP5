@@ -1,6 +1,8 @@
 uniform sampler2D tex0;
 uniform vec2 iResolution;
 
+const float threshold = 0.8;
+
 mat3 sx = mat3( 
     1.0, 2.0, 1.0, 
     0.0, 0.0, 0.0, 
@@ -31,7 +33,11 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
 	float g = sqrt(pow(gx, 2.0) + pow(gy, 2.0));
 	//fragColor = vec4(texColor - vec3(g), 1.0);
-	fragColor = vec4(vec3(1,1,1) - vec3(g), 1.0);
+
+	vec3 col3 = vec3(1,1,1) - vec3(g);
+	col3.x < threshold ? col3 = vec3(0, 0, 0) : col3 = vec3(1, 1, 1);
+
+	fragColor = vec4(col3, 1.0);
 } 
 
 void main() {
